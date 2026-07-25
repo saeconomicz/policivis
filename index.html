@@ -1,40 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Policy Institute | Analysis & Workshops</title>
-    <style>
-        /* Base Styles */
-        :root {
-            --primary-color: #1a365d;
-            --secondary-color: #2b6cb0;
-            --accent-color: #e2e8f0;
-            --text-dark: #2d3748;
-            --text-light: #ffffff;
-            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electronic Warfare (EW) Taxonomy & Consulting Directory</title>
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-color: #3b82f6;
+      --accent-hover: #60a5fa;
+      --accent-glow: rgba(59, 130, 246, 0.15);
+      --badge-bg: #1e293b;
+      --tag-color: #38bdf8;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            font-family: var(--font-main);
-            line-height: 1.6;
-            color: var(--text-dark);
-            background-color: #f7fafc;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
 
-        /* Navigation */
-        header {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.025em;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto 1.5rem auto;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (min-width: 640px) {
+      .controls {
+        flex-direction: row;
+      }
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .filter-select {
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .domain-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+
+    .domain-header {
+      padding: 1.25rem 1.5rem;
+      background-color: #172033;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .domain-header h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .domain-body {
+      padding: 1.5rem;
+    }
+
+    .fields-box {
+      margin-bottom: 1.5rem;
+      background-color: #0d1322;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid #1a2436;
+    }
+
+    .fields-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .fields-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .field-tag {
+      background-color: var(--badge-bg);
+      color: #e0f2fe;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid #334155;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 1024px) {
+      .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .project-card {
+      background-color: #161e2e;
+      border: 1px solid #232f48;
+      border-radius: 8px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-card h3 {
+      font-size: 1.05rem;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .meta-item {
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .meta-label {
+      font-weight: 600;
+      color: #93c5fd;
+    }
+
+    .meta-value {
+      color: var(--text-main);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Electronic Warfare (EW) Knowledge & Consulting Directory</h1>
+      <p class="subtitle">A comprehensive breakdown of the 100 core EW sub-fields and 39 specialized consulting project engagements across 13 operational domains.</p>
+      
+      <div class="controls">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search fields, domains, or project concepts (e.g., 'Jamming', 'DRFM', 'GPS')...">
+        <select id="domainSelect" class="filter-select">
+          <option value="all">All 13 Operational Domains</option>
+        </select>
+      </div>
+    </header>
+
+    <main id="directoryContainer">
+      <!-- Content populated dynamically by JS -->
+    </main>
+
+    <footer>
+      Electronic Warfare Framework & Dynamic Consulting Index
+    </footer>
+  </div>
+
+  <script>
+    const ewData = [
+      {
+        id: 1,
+        title: "1. Primary Pillars & Strategic Frameworks",
+        fields: ["1. Electronic Attack (EA)", "2. Electronic Protection (EP)", "3. Electronic Support (ES)", "4. Electromagnetic Battle Management (EMBM)", "5. Electromagnetic Spectrum Operations (EMSO)", "6. Spectrum Dominance", "7. Spectrum Management", "8. Cyber-Electromagnetic Activities (CEMA)"],
+        projects: [
+          {
+            title: "Joint Electromagnetic Spectrum Operations (JEMSO) Doctrine & Governance",
+            client: "Ministry of Defense / Joint Chiefs of Staff",
+            scope: "Standardize doctrine across ground, naval, and air forces for integrated EMSO and CEMA execution.",
+            deliverable: "CEMA integration playbook, organizational target operating model (TOM), and spectral deconfliction SOPs."
+          },
+          {
+            title: "Electromagnetic Battle Management (EMBM) System Architecture Audit",
+            client: "Defense Procurement Agency",
+            scope: "Evaluate C2 software architectures for real-time spectrum mapping and dynamic tasking across friendly forces.",
+            deliverable: "Architecture gap analysis, interoperability scorecard, and multi-year modernization roadmap."
+          },
+          {
+            title: "National Military Spectrum Strategy & Commercial Sharing Analysis",
+            client: "National Telecommunications Authority & MoD",
+            scope: "Analyze spectrum allocation trade-offs between commercial 5G/6G rollout and military spectrum reservation.",
+            deliverable: "Spectrum allocation economic impact model and dynamic spectrum sharing policy guidelines."
+          }
+        ]
+      },
+      {
+        id: 2,
+        title: "2. Signal Intelligence & Detection",
+        fields: ["9. SIGINT", "10. COMINT", "11. ELINT", "12. FISINT", "13. Direction Finding (DF)", "14. Geolocation & Emitter Tracking", "15. Emitter Classification", "16. Specific Emitter Identification (SEI)", "17. Signal Deinterleaving", "18. TDOA", "19. FDOA", "20. RF Reconnaissance"],
+        projects: [
+          {
+            title: "Machine Learning Signal Deinterleaving & SEI Pipeline Optimization",
+            client: "Defense Intelligence Agency / Tier-1 Defense Contractor",
+            scope: "Benchmarking AI algorithms for separating dense, overlapping pulses in jammed environments for specific emitter identification.",
+            deliverable: "Technical trade study, algorithmic accuracy benchmark report, and C2 data pipeline architecture."
+          },
+          {
+            title: "Distributed TDOA/FDOA Passive Sensor Network Optimization",
+            client: "Border Security Command / Naval Intelligence",
+            scope: "Modeling optimal sensor placement strategies for passive RF reconnaissance and geolocation of low-power emitters.",
+            deliverable: "Coverage optimization tool, receiver latency requirements specification, and deployment matrix."
+          },
+          {
+            title: "Next-Generation ELINT/COMINT Data Fusion Center Modernization",
+            client: "Joint Intelligence Command",
+            scope: "Unifying disparate FISINT, ELINT, and COMINT feeds into a single-pane situational awareness dashboard.",
+            deliverable: "Data schema standardization report, real-time ingestion pipeline specification, and vendor evaluation matrix."
+          }
+        ]
+      },
+      {
+        id: 3,
+        title: "3. Radar Electronic Warfare",
+        fields: ["21. Radar Jamming", "22. Noise Jamming", "23. Deception Jamming", "24. DRFM", "25. Monopulse Jamming", "26. Range Gate Pull-Off (RGPO)", "27. Velocity Gate Pull-Off (VGPO)", "28. RCS Reduction", "29. SAR Jamming", "30. Counter-Low Observability"],
+        projects: [
+          {
+            title: "DRFM Architecture Modernization & Coherent Spoofing Feasibility Study",
+            client: "Air Force Research Laboratory / Avionics Integrator",
+            scope: "Assessing ultra-fast Digital Radio Frequency Memory techniques for counter-monopulse and RGPO/VGPO applications.",
+            deliverable: "DRFM hardware requirements document, countermeasure technique library, and threat simulation results."
+          },
+          {
+            title: "Counter-SAR & Spoofing Strategy for Critical Ground Assets",
+            client: "Land Forces Command",
+            scope: "Developing operational strategies to protect fixed infrastructure against adversary SAR satellite imaging.",
+            deliverable: "SAR jammer placement playbook, radar cross-section camouflage integration guide, and threat risk assessment."
+          },
+          {
+            title: "Counter-Low Observability (Anti-Stealth) Radar Network Assessment",
+            client: "Air Defense Command",
+            scope: "Evaluating multi-static and VHF/UHF radar deployments to detect low-RCS (stealth) combat aircraft.",
+            deliverable: "Detection probability heatmaps, multi-static sensor positioning guide, and procurement recommendations."
+          }
+        ]
+      },
+      {
+        id: 4,
+        title: "4. Communications & Networks EW",
+        fields: ["31. COMJAM", "32. Tactical Data Link Jamming", "33. SATCOM Jamming", "34. GNSS / GPS Jamming", "35. GNSS / GPS Spoofing", "36. Anti-Jam Communications", "37. LPI/LPD", "38. Cellular Network Interception", "39. Mesh Network Countermeasures"],
+        projects: [
+          {
+            title: "GNSS-Resilient Position, Navigation, and Timing (PNT) Migration Strategy",
+            client: "Ground Forces / Tactical Logistics Command",
+            scope: "Assessing vulnerabilities to heavy GPS jamming/spoofing, and designing alternative PNT architectures.",
+            deliverable: "PNT resilience audit, alternative sensor integration roadmap, and tactical operating procedures during GPS denied states."
+          },
+          {
+            title: "Tactical Data Link Anti-Jamming & LPI/LPD Waveform Upgrade Program",
+            client: "Naval & Air Communications Program Office",
+            scope: "Evaluating frequency-hopping (FHSS) and direct-sequence (DSSS) waveforms to protect Link 16 against high-power COMJAM.",
+            deliverable: "Waveform security benchmark, network throughput analysis under jamming, and RF hardware transition roadmap."
+          },
+          {
+            title: "Urban Cellular & Ad-Hoc Network Interception Operational Framework",
+            client: "Special Operations Command",
+            scope: "Designing operational counter-mesh and cellular intercept strategies for asymmetric urban warfare environments.",
+            deliverable: "Tactical intercept equipment matrix, legal compliance checklist, and rapid deployment SOP."
+          }
+        ]
+      },
+      {
+        id: 5,
+        title: "5. Electro-Optical & Infrared (EO/IR) Warfare",
+        fields: ["40. Infrared Countermeasures (IRCM)", "41. DIRCM", "42. Laser Warning Systems (LWS)", "43. Laser Dazzling", "44. UV Missile Approach Warning", "45. Thermal Masking", "46. Multispectral Smoke Screen"],
+        projects: [
+          {
+            title: "Next-Gen Aircraft DIRCM Suite Procurement & Integration Audit",
+            client: "Military Aviation Materiel Command",
+            scope: "Evaluating laser-based Directional Infrared Countermeasure platforms to defend transport and rotary aircraft against MANPADS.",
+            deliverable: "DIRCM vendor comparative matrix, platform integration risk analysis, and lifecycle cost estimation model."
+          },
+          {
+            title: "Multi-Spectral Signature Management Strategy for Ground Vehicles",
+            client: "Armored Vehicle Program Management Office",
+            scope: "Formulating thermal masking, UV suppression, and multispectral aerosol smoke protocols to reduce vehicle observability.",
+            deliverable: "Vehicle signature reduction specification, aerosol deployment doctrine, and field test validation protocols."
+          },
+          {
+            title: "Integrated Laser & UV Threat Warning System Architecture",
+            client: "Naval Shipyard / Warship Program Office",
+            scope: "Designing an integrated Laser Warning System and UV Missile Approach Warning sensor suite tied to automated decoy dispensers.",
+            deliverable: "Threat detection timeline model, sensor fusion requirement specification, and integration architecture."
+          }
+        ]
+      },
+      {
+        id: 6,
+        title: "6. Physical Countermeasures & Decoys",
+        fields: ["47. Chaff Dispensing", "48. Flare Countermeasures", "49. Towed Radar Decoys (TRD)", "50. Active Expendable Decoys (AED)", "51. Acoustic / Anti-Torpedo Decoys", "52. Inflatable & EM Decoys"],
+        projects: [
+          {
+            title: "Air-Launched Active Expendable Decoy (AED) Inventory Strategy",
+            client: "Air Force Weapons Program Office",
+            scope: "Analyzing operational utility and cost-benefit ratios of disposable active RF decoys versus towed radar decoys.",
+            deliverable: "Cost-effectiveness trade study, flight-profile employment doctrine, and stockpile requirement model."
+          },
+          {
+            title: "Naval Torpedo Defense & Acoustic Decoy Optimization Study",
+            client: "Naval Sea Systems Command",
+            scope: "Evaluating acoustic decoy performance against modern wake-homing and active/passive acoustic torpedoes.",
+            deliverable: "Acoustic decoy placement model, submarine countermeasure firing doctrine, and threat vulnerability matrix."
+          },
+          {
+            title: "Multi-Domain Decoy & Electro-Magnetic Camouflage Master Plan",
+            client: "Strategic Defense Infrastructure Bureau",
+            scope: "Designing large-scale inflatable, thermal, and RF emitting decoy networks to protect high-value command posts.",
+            deliverable: "Decoy deception layout plans, power distribution architecture, and adversary reconnaissance evasion guide."
+          }
+        ]
+      },
+      {
+        id: 7,
+        title: "7. Directed Energy & Cyber-EW Integration",
+        fields: ["53. High-Power Microwave (HPM)", "54. High-Energy Laser (HEL)", "55. Electromagnetic Pulse (EMP)", "56. RF Cyber Injection", "57. Wireless Network Intrusion", "58. Protocol Manipulation"],
+        projects: [
+          {
+            title: "High-Power Microwave (HPM) Counter-Swarm System Business Case",
+            client: "Air Defense & Missile Defense Command",
+            scope: "Feasibility study and operational integration plan for land-based HPM systems designed to neutralize drone swarms.",
+            deliverable: "Technical readiness level assessment, safety boundary analysis, and tactical stationing plan."
+          },
+          {
+            title: "Over-The-Air (OTA) RF Cyber Injection Capability Assessment",
+            client: "Cyber Command & Electronic Warfare Directorate",
+            scope: "Developing an operational framework for injecting malicious payloads over radio frequencies into unpatched tactical networks.",
+            deliverable: "Vulnerability discovery framework, RF payload delivery feasibility matrix, and risk mitigation guidelines."
+          },
+          {
+            title: "Military Infrastructure Electromagnetic Pulse (EMP) Hardening Audit",
+            client: "Defense Infrastructure Agency",
+            scope: "Auditing command centers and communications hubs against nuclear and non-nuclear EMP threats.",
+            deliverable: "Facility vulnerability scorecards, Faraday shielding remediation specifications, and fallback power architecture."
+          }
+        ]
+      },
+      {
+        id: 8,
+        title: "8. Cognitive & Advanced Technology EW",
+        fields: ["59. Cognitive Electronic Warfare", "60. Adaptive Radar Countermeasures", "61. AI Spectrum Allocation", "62. Automated Threat Library Generation", "63. Machine Learning Signal Processing", "64. Quantum RF Sensing", "65. Photonic Signal Processing"],
+        projects: [
+          {
+            title: "Cognitive EW Real-Time Algorithmic Engine Selection",
+            client: "DARPA / EW System Integrator",
+            scope: "Evaluating reinforcement learning models capable of identifying uncataloged waveforms and generating jammer responses under 10ms.",
+            deliverable: "ML algorithm selection report, hardware acceleration requirements, and flight-test evaluation criteria."
+          },
+          {
+            title: "Automated EW Threat Library Reprogramming Pipeline",
+            client: "Electronic Warfare Reprogramming Center",
+            scope: "Streamlining the pipeline that transforms intelligence data captured in combat into updated threat library files flashed to EW suites.",
+            deliverable: "Automated signal processing pipeline workflow, data validation protocols, and time-to-deployment reduction strategy."
+          },
+          {
+            title: "Quantum RF Sensing & Photonic Signal Processing Roadmap",
+            client: "Military R&D Directorate",
+            scope: "10-year technology forecasting report on Rydberg atom sensors and integrated microwave photonics for spectrum monitoring.",
+            deliverable: "R&D investment roadmap, academic/industry partner mapping, and technology milestone schedule."
+          }
+        ]
+      },
+      {
+        id: 9,
+        title: "9. Domain-Specific EW Operations",
+        fields: ["66. Airborne Electronic Warfare", "67. Naval Surface EW", "68. Submarine EW", "69. Ground-Based Tactical EW", "70. Space-Based EW", "71. Counter-Unmanned Aerial Systems (C-UAS)", "72. Counter-IED (C-IED) EW"],
+        projects: [
+          {
+            title: "Counter-Unmanned Aerial Systems (C-UAS) Layered Defense Architecture",
+            client: "Base Protection Program Office / Critical Infrastructure Authority",
+            scope: "Designing a multi-layered C-UAS strategy combining passive RF detection, GPS spoofing, directional jamming, and hard-kill effectors.",
+            deliverable: "System architecture blueprint, rules of engagement decision matrix, and vendor selection scorecard."
+          },
+          {
+            title: "Space-Based Electronic Warfare Threat & Countermeasure Assessment",
+            client: "Space Command",
+            scope: "Evaluating threat vectors against LEO comms constellations from ground-based satellite jammers and orbital RF threats.",
+            deliverable: "Satellite constellation vulnerability analysis, cross-link protection strategy, and orbital EW policy framework."
+          },
+          {
+            title: "Modular Ground-Based Tactical EW Vehicle Fleet Modernization",
+            client: "Army Materiel Command",
+            scope: "Standardizing vehicle-mounted EW pods for combined COMINT, COMJAM, and C-IED missions on armored tactical platforms.",
+            deliverable: "Fleet modularity specification, power supply trade study, and crew training program design."
+          }
+        ]
+      },
+      {
+        id: 10,
+        title: "10. Hardware, RF Engineering & Manufacturing",
+        fields: ["73. Antenna Array Engineering", "74. MMIC Design", "75. Wideband RF Receivers", "76. Wide-Bandgap Semiconductors (GaN)", "77. Software-Defined Radio (SDR)", "78. EM Hardening & Shielding", "79. RF System Miniaturization", "80. Cryogenic Cooling"],
+        projects: [
+          {
+            title: "Gallium Nitride (GaN) Semiconductor Supply Chain Resiliency Strategy",
+            client: "Defense Industrial Base Office / Semiconductor Manufacturer",
+            scope: "Assessing vulnerabilities in the supply chain for GaN MMICs used in high-power EW transmitters and AESA radar systems.",
+            deliverable: "Supply chain risk map, dual-sourcing recommendations, and domestic foundry capacity scaling plan."
+          },
+          {
+            title: "SWaP-C Optimization for Drone-Borne EW Pods",
+            client: "Tactical Drone Manufacturer",
+            scope: "Redesigning wideband SDR receivers and RF power amplifiers to fit within strict payload constraints for Group 2/3 UAVs.",
+            deliverable: "SWaP-C reduction trade study, thermal management design specification, and flight duration impact model."
+          },
+          {
+            title: "Next-Gen Wideband AESA Antenna Array Manufacturing Audit",
+            client: "Defense Electronics Manufacturer",
+            scope: "Auditing manufacturing yields and calibration techniques for ultra-wideband AESA arrays used in multi-function EW systems.",
+            deliverable: "Yield improvement roadmap, automated calibration process blueprint, and unit-cost projection model."
+          }
+        ]
+      },
+      {
+        id: 11,
+        title: "11. Signal Processing & Mathematics",
+        fields: ["81. Waveform Engineering", "82. Fourier & Time-Frequency Analysis", "83. Adaptive Filtering Techniques", "84. Compressive Sensing in RF", "85. MIMO Processing", "86. Blind Source Separation (BSS)"],
+        projects: [
+          {
+            title: "Compressive Sensing Implementation for Ultra-Wideband Receivers",
+            client: "EW Signal Processing Laboratory",
+            scope: "Applied mathematical modeling to implement compressive sensing, reducing ADC sampling rate requirements without missing radar signals.",
+            deliverable: "Algorithmic architecture paper, C++ prototype codebase specification, and processing throughput benchmark."
+          },
+          {
+            title: "MIMO Beamforming Algorithms for Dense Dynamic Environments",
+            client: "Naval Research Laboratory",
+            scope: "Designing spatial signal processing algorithms to simultaneously direct jammer nulls toward friendly units while targeting threat emitters.",
+            deliverable: "Beamforming algorithm performance report, computational complexity analysis, and simulation code package."
+          },
+          {
+            title: "Advanced Blind Source Separation (BSS) for Tactical Signal Unmixing",
+            client: "Communications Security Establishment",
+            scope: "Developing ICA algorithms to separate unknown mixed signals in heavily jammed battle zones without prior waveform knowledge.",
+            deliverable: "Mathematical algorithm specification, signal separation accuracy scorecard, and hardware acceleration requirements."
+          }
+        ]
+      },
+      {
+        id: 12,
+        title: "12. Testing, Training, Simulation & Modeling",
+        fields: ["87. Modeling & Simulation of EW", "88. Hardware-in-the-Loop (HITL) Testing", "89. Anechoic Chamber Testing", "90. EM Environment Generation", "91. Threat Library Reprogramming", "92. Operational Test & Evaluation", "93. Red Teaming"],
+        projects: [
+          {
+            title: "Hardware-in-the-Loop (HITL) EW Test Facility Modernization",
+            client: "National Flight Test Center",
+            scope: "Designing a HITL simulation environment generating 1,000+ simultaneous radar emitters for evaluating jet fighter EW suites.",
+            deliverable: "Facility design blueprint, RF threat generator hardware specification, and acceptance testing criteria."
+          },
+          {
+            title: "Red Team EM Spectrum Aggression Doctrine & Training Program",
+            client: "Joint Force Training Center",
+            scope: "Structuring adversary force emulation guidelines to test frontline military units during live-fire war games under complete GPS blackout.",
+            deliverable: "Red Team operational manual, tactical jammer deployment scenarios, and unit evaluation scorecards."
+          },
+          {
+            title: "Digital Twin EW Simulation Platform Development",
+            client: "Defense Modeling & Simulation Office",
+            scope: "Creating physics-based digital twins of naval vessel RF environments to test new electronic protection software prior to sea trials.",
+            deliverable: "Software requirements document, RF propagation model validation report, and integration architecture."
+          }
+        ]
+      },
+      {
+        id: 13,
+        title: "13. Policy, Doctrine & Spectrum Governance",
+        fields: ["94. Emission Control (EMCON)", "95. Electromagnetic Environmental Effects (E3)", "96. Frequency Clearance", "97. EW Doctrine Development", "98. Allied EW Interoperability", "99. Collateral EM Damage Assessment", "100. Rules of Engagement for Spectrum Warfare"],
+        projects: [
+          {
+            title: "NATO Allied EW Interoperability & Data Standard Standardization",
+            client: "NATO Standardization Office / Multi-National Task Force",
+            scope: "Harmonizing EW data formats, STANAG protocols, and threat classification libraries across 10+ allied nations.",
+            deliverable: "Interoperability gap analysis, standardized data format specification, and multi-national exercise testing protocol."
+          },
+          {
+            title: "Emission Control (EMCON) & Electromagnetic Environmental Effects (E3) Audit",
+            client: "Carrier Strike Group / Naval Surface Forces",
+            scope: "Auditing warship fleet EMI risks to ensure friendly jammers do not blind friendly radars during high-EMCON operations.",
+            deliverable: "Fleet E3 deconfliction plan, EMCON state matrix, and operational guidelines for simultaneous strike and jam missions."
+          },
+          {
+            title: "Legal, ROE, & Civilian Collateral Damage Framework for EM Weapons",
+            client: "MoD Operational Law & Policy Bureau",
+            scope: "Establishing clear Rules of Engagement and legal guidelines governing military HPM and wideband jamming near civilian infrastructure.",
+            deliverable: "EW Rules of Engagement handbook, collateral damage estimation methodology, and civilian spectrum risk matrix."
+          }
+        ]
+      }
+    ];
+
+    // Populate Domain Selector
+    const domainSelect = document.getElementById('domainSelect');
+    ewData.forEach(domain => {
+      const option = document.createElement('option');
+      option.value = domain.id;
+      option.textContent = domain.title;
+      domainSelect.appendChild(option);
+    });
+
+    // Render Function
+    function renderDirectory() {
+      const container = document.getElementById('directoryContainer');
+      container.innerHTML = '';
+
+      ewData.forEach(domain => {
+        const domainSection = document.createElement('section');
+        domainSection.className = 'domain-section';
+        domainSection.dataset.id = domain.id;
+
+        const fieldsTagsHtml = domain.fields.map(f => `<span class="field-tag">${f}</span>`).join('');
+        
+        const projectsHtml = domain.projects.map(p => `
+          <div class="project-card">
+            <h3>${p.title}</h3>
+            <div>
+              <div class="meta-item"><span class="meta-label">Client:</span> <span class="meta-value">${p.client}</span></div>
+              <div class="meta-item"><span class="meta-label">Scope:</span> <span class="meta-value">${p.scope}</span></div>
+              <div class="meta-item"><span class="meta-label">Deliverable:</span> <span class="meta-value">${p.deliverable}</span></div>
+            </div>
+          </div>
+        `).join('');
+
+        domainSection.innerHTML = `
+          <div class="domain-header">
+            <h2>${domain.title}</h2>
+          </div>
+          <div class="domain-body">
+            <div class="fields-box">
+              <div class="fields-title">Core Sub-Fields Covered</div>
+              <div class="fields-list">
+                ${fieldsTagsHtml}
+              </div>
+            </div>
+            <div class="projects-grid">
+              ${projectsHtml}
+            </div>
+          </div>
+        `;
+
+        container.appendChild(domainSection);
+      });
+    }
+
+    // Search and Filter Logic
+    function filterContent() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const selectedDomain = document.getElementById('domainSelect').value;
+
+      document.querySelectorAll('.domain-section').forEach(section => {
+        const domainId = section.dataset.id;
+        const textContent = section.textContent.toLowerCase();
+
+        const matchesDomain = (selectedDomain === 'all' || selectedDomain === domainId);
+        const matchesQuery = textContent.includes(query);
+
+        if (matchesDomain && matchesQuery) {
+          section.classList.remove('hidden');
+        } else {
+          section.classList.add('hidden');
+        }
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterContent);
+    document.getElementById('domainSelect').addEventListener('change', filterContent);
+
+    // Initial render
+    renderDirectory();
+  </script>
+</body>
+</html>            justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
